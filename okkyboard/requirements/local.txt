@@ -7,4 +7,6 @@ ipdb==0.13.5
 
 # testing
 pytest==6.2.2
+pytest-django==4.1.0
 flake8==3.8.4
+model_bakery==1.2.1

@@ -15,6 +15,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
 ]
 
@@ -85,3 +87,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# django rest framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
