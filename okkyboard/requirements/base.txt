@@ -1,0 +1,6 @@
+django==3.7.1
+djangorestframework==3.12.2
+psycopg2==2.8.6
+
+# swagger
+drf-yasg==1.20.0
