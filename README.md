@@ -1,0 +1,1 @@
+Django Study Weekly Assignment
