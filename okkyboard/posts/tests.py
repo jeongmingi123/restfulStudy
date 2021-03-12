@@ -8,6 +8,44 @@ from model_bakery import baker
 from .models import Post
 
 
+class PostViewTest(TestCase):
+    def setUp(self):
+        baker.make('posts.Post', _quantity=10, title='test')
+
+    def test_post_list(self):
+        response = self.client.get(reverse('posts:list'))
+
+        title_lists = Post.objects.values_list('title', flat=True)
+        expected = ','.join(title_lists)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.content.decode(), expected)
+
+    def test_post_detail(self):
+        post = baker.make('posts.Post', title='test')
+        response = self.client.get(reverse('posts:detail', kwargs={'pk': post.pk}))
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.content.decode(), 'test')
+
+    def test_post_create(self):
+        response = self.client.post(reverse('posts:create'), data={
+            'title': 'new post',
+            'content': 'new content',
+        })
+
+        new_post = Post.objects.last()
+
+        self.assertEqual(new_post.title, 'new post')
+        self.assertEqual(response.content.decode(), 'new post')
+
+    def test_post_delete(self):
+        deleted_post = baker.make('posts.Post', title='test')
+        response = self.client.get(reverse('posts:delete', kwargs={'pk': deleted_post.pk}))
+
+        self.assertFalse(Post.objects.filter(pk=deleted_post.pk).exists())
+
+
 class PostModelTest(TestCase):
     def setUp(self):
         self.post = baker.make('posts.Post')
@@ -18,13 +56,16 @@ class PostModelTest(TestCase):
 
 class PostViewSetTest(APITestCase):
     def setUp(self):
+        # user 생성
         self.user = baker.make('users.User')
-        self.list_url = reverse('api:posts-list')
+        self.list_url = reverse('api:posts-list')  # '/api/v1/posts/'
+        # post 생성
         self.post = baker.make('posts.Post', user=self.user)
         self.detail_url = reverse('api:posts-detail', kwargs={'pk': self.post.id})
 
-    def test_list_pi_url_works(self):
-        res = self.client.get(self.list_url)
+    def test_list_api_url_works(self):
+        # request 요청 전송
+        res = self.client.get('/api/v1/posts/')
 
         self.assertEqual(res.status_code, HTTPStatus.OK)
         self.assertEqual(len(res.data), 1)

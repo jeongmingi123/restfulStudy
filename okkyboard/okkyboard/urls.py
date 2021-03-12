@@ -26,4 +26,5 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path('api/v1/', include('okkyboard.api_router')),
+    path('', include('posts.urls')),
 ]
