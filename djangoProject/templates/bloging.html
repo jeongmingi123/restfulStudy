@@ -1,11 +1,14 @@
 <html>
     <head>
-        <title>Posting!</title>
+        <title>블로그 개별 페이지</title>
     </head>
     <body>
         <h1>< 이 페이지는 게시글 개별 페이지입니다 ></h1>
         <h2>제목 : {{blog.title}}</h2>
         <h2>내용 : {{blog.text}}</h2>
         <h2>코멘트 : {{blog.comment}}</h2>
+        <h2>등록 시간 : {{blog.created}}</h2>
+        <a href="/blog/{{blog.pk}}/remove">삭제</a>
+
     </body>
 </html>

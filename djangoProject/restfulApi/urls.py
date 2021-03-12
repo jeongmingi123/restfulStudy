@@ -3,8 +3,7 @@ from django.contrib import admin
 from rest_framework import routers
 from quickstart import views
 from blog.views import all_blog as blog_views
-from blog.views import bloging, new_blog
-
+from blog.views import bloging, new_blog, remove_blog
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -19,6 +18,7 @@ urlpatterns = [
 
     path('blog/', blog_views, name='blog'),
     path('blog/<int:pk>', bloging, name="bloging"),
-    path('blog/new_blog', new_blog, name="new_blog")
+    path('blog/new_blog', new_blog, name="new_blog"),
+    path('blog/<int:pk>/remove/', remove_blog),
 
 ]

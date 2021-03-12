@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from . import models
 
 
-def all_blog(request):
+def all_blog(request):  # 모든 블로그 내용
     all_blogs = models.Blog.objects.all()
     return render(request, "all_views.html", context={"blogs": all_blogs})
 
@@ -14,13 +14,23 @@ def bloging(request, pk):
     return render(request, 'bloging.html', context={'blog': blog})
 
 
-def new_blog(request):
+def new_blog(request):  # 요청된 방법이 POST 방식이면, create 메소드 사용하여, DB 생성
 
     if request.method == 'POST':
-        new_article = models.Blog.objects.create(
+        new_blog = models.Blog.objects.create(
             title=request.POST['title'],
             text=request.POST['text'],
             comment=request.POST['comment'],
         )
         return redirect('/blog/')
     return render(request, 'new_blog.html')
+
+
+def remove_blog(request, pk):
+
+    blog = models.Blog.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        blog.delete()
+        return redirect('/blog/')
+    return render(request, 'remove_blog.html', {'blog': blog})
