@@ -3,13 +3,17 @@ from . import models
 
 
 def all_blog(request):  # 모든 블로그 내용
+
     all_blogs = models.Blog.objects.all()
+
+    # context 첫번째 인자는 html 템플릿에 보낼 변수이름, 두번째는 함수에서 보낼 변수
     return render(request, "all_views.html", context={"blogs": all_blogs})
 
 
 def bloging(request, pk):
     # 게시글(Post) 중 pk(primary_key)를 이용해 하나의 게시글(post)를 검색
     blog = models.Blog.objects.get(pk=pk)
+
     # posting.html 페이지를 열 때, 찾아낸 게시글(post)을 post라는 이름으로 가져옴
     return render(request, 'bloging.html', context={'blog': blog})
 
@@ -27,10 +31,20 @@ def new_blog(request):  # 요청된 방법이 POST 방식이면, create 메소�
 
 
 def remove_blog(request, pk):
-
     blog = models.Blog.objects.get(pk=pk)
 
     if request.method == 'POST':
         blog.delete()
         return redirect('/blog/')
     return render(request, 'remove_blog.html', {'blog': blog})
+
+
+def edit_blog(requset, pk):
+    blog = models.Blog.objects.get(pk=pk)
+    if requset.method == 'POST':
+        blog.title = requset.POST['title']
+        blog.text = requset.POST['text']
+        blog.comment = requset.POST['comment']
+        blog.save()
+        return redirect(f'/blog/{blog.pk}')
+    return render(requset, 'edit_blog.html', {'blog': blog})
