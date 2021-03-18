@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>포스트 생성 페이지</h2>
+<br>
+<form action="{% url 'blog:post_create' %}" method="POST">
+<input type='hidden' name='username' value='veend'>
+# title : <input type='text' name='title'><br/>
+# content : <br/><input type='textarea' name='content'><br/>
+<input type='submit' value='생성'>
+</form>
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>포스트 수정 페이지</h2>
+<br>
+
+# post_id : {{ post.id }} <br>
+# user : {{ post.user.username }} <br>
+<form action="{% url 'blog:post_update' %}" method="POST">
+{% csrf_token %}
+<input type="hidden" name="post_id" value="{{ post.id }}">
+# title : <input type="text" readonly value="{{ post.title }}"> <br>
+# content : <br>
+<input type="textarea" name="content" value="{{ post.content }}">
+<input type="submit" value="수정"><br>
+</form>
+# create_dt : {{ post.create_dt }}<br>
+# modify_dt : {{ post.modify_dt }}
+
+
+
+</body>
+</html>
