@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from .models import Post, User
 from .serializers import PostSerializer
@@ -51,7 +51,7 @@ def post_create(request):
     title = request.POST.get('title')
     content = request.POST.get('content')
 
-    post = Post.objects.create(title=title, content=content, user=User.objects.last())
+    post = Post.objects.create(title=title, content=content)
     return HttpResponse(post.title)
 
 
@@ -62,3 +62,35 @@ def post_delete(request, pk):
     return HttpResponse()
 
 
+# refactoring to CBV
+from django.http import HttpResponse
+from django.views import View
+from django.utils.decorators import method_decorator
+
+class PostListView(View):
+    def get(self, request, *args, **kwargs):
+        title_lists = Post.objects.values_list('title', 'id')
+        return HttpResponse(title_lists)
+
+class PostDetailView(View):
+    def get(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        return HttpResponse(post)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostCreateView(View):
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+
+        post = Post.objects.create(title=title, content=content)
+        return HttpResponse(post)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostDeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return HttpResponse('deleted')
