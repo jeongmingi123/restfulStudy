@@ -1,0 +1,8 @@
+<h2>포스트 생성 / 수정 / 삭제</h2>
+
+<form method="POST">
+{% csrf_token %}
+{{ form }}
+<input type='submit' value='생성 / 수정 / 삭제'>
+</form>
+

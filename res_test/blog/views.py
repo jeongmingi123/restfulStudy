@@ -1,70 +1,119 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views import View
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+
+from .forms import PostForm
 from .models import Post
 
 
-# 포스트 목록 보기 - GET
-class PostList(View):
+# -------------------------------------------
+# Generic View
 
-    def get(self, request):
-        posts = Post.objects.all()
-        context = {'posts': posts}
-        return render(request, 'blog/post_list.html', context)
-
-
-# 특정 포스트 보기 - GET
-class PostDetail(View):
-
-    def get(self, request, post_id):
-        post = Post.objects.get(id=post_id)
-        context = {'post': post}
-        return render(request, 'blog/post_detail.html', context)
+# post list
+class PostList(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'blog/post_list.html'
 
 
-# 포스트 생성하기 - GET: page / POST: create & redirect
-@method_decorator(csrf_exempt, name='dispatch')
-class PostCreate(View):
-
-    def get(self, request):
-        return render(request, 'blog/post_create.html', dict())
-
-    def post(self, request):
-        post = Post()
-        post.title = request.POST['title']
-        post.user = User.objects.get_by_natural_key(request.POST['username'])
-        post.content = request.POST['content']
-        post.save()
-        return redirect('blog:post_list')
+# post detail
+class PostDetail(DetailView):
+    model = Post
+    context_object_name = 'post'
+    template_name = 'blog/post_detail.html'
 
 
-# 특정 포스트 수정 - GET / POST
-class PostUpdate(View):
-
-    def get(self, request, post_id):
-        post = Post.objects.get(id=post_id)
-        context = {'post': post}
-        return render(request, 'blog/post_update.html', context)
-
-    def post(self, request):
-        post_id = request.POST['post_id']
-        post = Post.objects.get(id=post_id)
-        post.content = request.POST['content']
-        post.save()
-        return redirect('blog:post_detail', post_id=post_id)
+# post create
+class PostCreate(CreateView):
+    model = Post
+    form_class = PostForm
+    success_url = reverse_lazy('blog:post_list')
 
 
-# 특정 포스트 삭제 - GET
-class PostDelete(View):
-
-    def get(self, request, post_id):
-        post = Post.objects.get(id=post_id)
-        post.delete()
-        return redirect('blog:post_list')
+# post update
+class PostUpdate(UpdateView):
+    model = Post
+    form_class = PostForm
+    success_url = reverse_lazy('blog:post_list')
 
 
+# post delete
+class PostDelete(DeleteView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+    success_url = reverse_lazy('blog:post_list')
+
+
+# -------------------------------------------
+
+# 이전 CBV with View 코드
+
+
+# # 포스트 목록 보기 - GET
+# class PostList(View):
+#
+#     def get(self, request):
+#         posts = Post.objects.all()
+#         context = {'posts': posts}
+#         return render(request, 'blog/post_list.html', context)
+#
+#
+# # 특정 포스트 보기 - GET
+# class PostDetail(View):
+#
+#     def get(self, request, post_id):
+#         post = Post.objects.get(id=post_id)
+#         context = {'post': post}
+#         return render(request, 'blog/post_detail.html', context)
+#
+#
+# # 포스트 생성하기 - GET: page / POST: create & redirect
+# @method_decorator(csrf_exempt, name='dispatch')
+# class PostCreate(View):
+#
+#     def get(self, request):
+#         return render(request, 'blog/post_create.html', dict())
+#
+#     def post(self, request):
+#         post = Post()  # .objects.create('')
+#         post.title = request.POST['title']
+#         post.user = User.objects.get_by_natural_key(request.POST['username'])
+#         post.content = request.POST['content']
+#         post.save()
+#         return redirect('blog:post_list')
+#
+#
+# # 특정 포스트 수정 - GET / POST
+# class PostUpdate(View):
+#
+#     def get(self, request, post_id):
+#         post = Post.objects.get(id=post_id)
+#         context = {'post': post}
+#         return render(request, 'blog/post_update.html', context)
+#
+#     def post(self, request):
+#         post_id = request.POST['post_id']
+#         post = Post.objects.get(id=post_id)
+#         post.content = request.POST['content']
+#         post.save()
+#         return redirect('blog:post_detail', post_id=post_id)
+#
+#
+# # 특정 포스트 삭제 - GET
+# class PostDelete(View):
+#
+#     def get(self, request, post_id):
+#         post = Post.objects.get(id=post_id)
+#         post.delete()
+#         return redirect('blog:post_list')
+
+
+# -------------------------------------------
 
 # 이전 FBV 코드
 

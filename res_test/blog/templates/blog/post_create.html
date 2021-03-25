@@ -8,8 +8,9 @@
 
 <h2>포스트 생성 페이지</h2>
 <br>
-<form action="{% url 'blog:post_create' %}" method="POST">
-<input type='hidden' name='username' value='veend'>
+<form action="{% url 'blog:create' %}" method="POST">
+{% csrf_token %}
+<input type='hidden' name='user' value='veend'>
 # title : <input type='text' name='title'><br/>
 # content : <br/><input type='textarea' name='content'><br/>
 <input type='submit' value='생성'>

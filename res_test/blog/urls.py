@@ -13,11 +13,18 @@ urlpatterns = [
     # path('post_create/', views.post_create, name='create'),
     # path('post_delete/', views.post_delete),
 
-    # CBV
+    # CBV with View
+    # path('post_list/', views.PostList.as_view(), name='post_list'),
+    # path('post_detail/<int:post_id>', views.PostDetail.as_view(), name='post_detail'),
+    # path('post_create/', views.PostCreate.as_view(), name='post_create'),
+    # path('post_update/<int:post_id>', views.PostUpdate.as_view(), name='post_update'),
+    # path('post_update/', views.PostUpdate.as_view(), name='post_update'),
+    # path('post_delete/<int:post_id>', views.PostDelete.as_view()),
+
+    # Generic
     path('post_list/', views.PostList.as_view(), name='post_list'),
-    path('post_detail/<int:post_id>', views.PostDetail.as_view(), name='post_detail'),
+    path('post_detail/<int:pk>/', views.PostDetail.as_view(), name='post_detail'),
     path('post_create/', views.PostCreate.as_view(), name='post_create'),
-    path('post_update/<int:post_id>', views.PostUpdate.as_view(), name='post_update'),
-    path('post_update/', views.PostUpdate.as_view(), name='post_update'),
-    path('post_delete/<int:post_id>', views.PostDelete.as_view()),
+    path('post_update/<int:pk>/', views.PostUpdate.as_view(), name='post_update'),
+    path('post_delete/<int:pk>/', views.PostDelete.as_view(), name='post_delete'),
 ]
