@@ -1,0 +1,7 @@
+<div style="text-align: center; max-width: 500px">
+    <h2>Delete</h2>
+    <form action="{% url 'cbvposts:delete' pk=post.pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit">
+    </form>
+</div>

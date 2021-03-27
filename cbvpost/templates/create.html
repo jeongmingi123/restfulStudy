@@ -1,0 +1,10 @@
+<h2>글쓰기</h2>
+
+<div>
+    <form action="{% url 'cbvposts:create' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title">
+        <input type="text" name="content">
+        <input type="submit">
+    </form>
+</div>
