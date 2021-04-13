@@ -12,8 +12,7 @@ class Blog_list(ListView):  # Class View 만 이용해서 사용
 
     model = models.Blog
     context_object_name = "blogs"
-    template_name = "blog_list"
-
+    template_name = "blog_list.html"
 
 
 class BlogDetail(DetailView):
@@ -22,12 +21,10 @@ class BlogDetail(DetailView):
     template_name = "blog_detail.html"
 
 
-
 class New_blog(CreateView):
     model = models.Blog
     form_class = forms.BlogForm
     success_url = reverse_lazy('blog_list')
-
 
 
 class Remove_blog(DeleteView):
@@ -38,11 +35,9 @@ class Remove_blog(DeleteView):
 
 
 class Edit_blog(UpdateView):
-
     model = models.Blog
     form_class = forms.BlogForm
     success_url = reverse_lazy('blog_list')
-
 
 # 이전 Class View get, post 메소드 사용
 

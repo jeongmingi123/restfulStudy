@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'restfulApi',
     'quickstart',
     'blog',
-    'core'
+    'core',
+    'todo'
 ]
 
 MIDDLEWARE = [
