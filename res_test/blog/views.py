@@ -23,7 +23,7 @@ class PostList(ListView):
 # post detail
 class PostDetail(DetailView):
     model = Post
-    context_object_name = 'post'
+    # context_object_name = 'post'
     template_name = 'blog/post_detail.html'
 
 

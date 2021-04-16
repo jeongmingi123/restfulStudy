@@ -1,0 +1,31 @@
+<center>
+<br/>
+<form action="{% url 'todo:create' %}" method="post">
+{% csrf_token %}
+<input type="text" name="title">
+<input type="submit" value="할일 등록">
+</form>
+
+<br/>
+<table border="solid 1px">
+    <tr>
+        <td><b>할 일</b></td>
+        <td><b>등록일자</b></td>
+    </tr>
+{% for object in object_list %}
+    <tr>
+        {% if not object.check %}
+        <td>{{ object.title }}</td>
+        <td>{{ object.create_dt }}</td>
+        <td><a href="{% url 'todo:update' object.id %}">완료/취소</a></td>
+        <td><a href="{% url 'todo:delete' object.id %}">삭제</a></td>
+        {% else %}
+        <td><s>{{ object.title }}</s></td>
+        <td><s>{{ object.create_dt }}</s></td>
+        <td><a href="{% url 'todo:update' object.id %}">완료/취소</a></td>
+        <td><a href="{% url 'todo:delete' object.id %}">삭제</a></td>
+        {% endif %}
+    </tr>
+{% endfor %}
+</table>
+</center>
