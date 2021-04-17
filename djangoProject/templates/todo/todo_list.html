@@ -5,11 +5,75 @@
     <title>Title</title>
 </head>
 <body>
+<div class="main">
+    <h1 class="title">Todo List</h1>
+    <form method="post" class="form" action="/todo/todo_create/">
+        {% csrf_token %}
+        <div><input type="text" name="item"><br></div>
+        <div><input type="submit" value="할일추가"></div>
+    </form>
+    <div class="todoList todoList_title">
+        <div><b>할일</b></div>
+        <div class=todoList__aTag>
+            <div><b>보기</b></div>
+        </div>
+    </div>
 
-<div>
-    {% for todo in todos %}
-    <h1>{{todo.item}}</h1>
+    {% for todo in todo_list %}
+    <div class="todoList">
+        <div>{{todo.item}}</div>
+        <div class=todoList__aTag>
+            <div><a href="/todo/{{todo.pk}}/delete">삭제 </a>
+            </div>
+            <div> /</div>
+            <div><a href="/todo/{{todo.pk}}/edit">수정</a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
 </div>
 </body>
 </html>
+<style>
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .main {
+        border: solid 1px;
+        margin: 0 auto;
+        width: 50%;
+        height: 40%;
+        padding: 10px 0px;
+    }
+
+    .form {
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .todoList {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 25px 10px 25px;
+    }
+
+    .todoList_title {
+        padding: 0px 39px 10px 33px;
+    }
+
+
+    .form {
+        padding: 0px 0px 20px 0px;
+    }
+
+    .todoList__aTag {
+        display: flex;
+    }
+</style>

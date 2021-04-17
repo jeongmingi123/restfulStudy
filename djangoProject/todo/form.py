@@ -3,5 +3,9 @@ from .models import Todo
 from datetime import date
 
 
-class TodoForm(forms.Form):
-    item = forms.CharField(label='item', widget=forms.TextInput(attrs={'placeholder': 'item'}), required=True)
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = {'item'}
+
+
