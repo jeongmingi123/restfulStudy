@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'todo.apps.TodoConfig',
-    'todoapi.apps.TodoapiConfig',
+    'todo_api.apps.TodoApiConfig',
 ]
 
 MIDDLEWARE = [

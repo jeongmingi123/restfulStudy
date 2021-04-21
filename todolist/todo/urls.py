@@ -7,5 +7,5 @@ urlpatterns = [
     path('create/', TodoCreate.as_view(), name='create'),
     path('<str:pk>/update/', todo_update, name='update'),
     path('<str:pk>/delete/', todo_delete, name='delete'),
-
 ]
+

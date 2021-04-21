@@ -11,7 +11,7 @@ class TodoList(ListView):
 
 class TodoCreate(CreateView):
     model = Todo
-    fields = ['title']
+    fields = ['title']      # ?????
 
     def get_success_url(self):
         return reverse('todo:list')

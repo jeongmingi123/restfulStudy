@@ -6,5 +6,9 @@ class Todo(models.Model):
     check = models.BooleanField(default=False)
     create_dt = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-create_dt']
+
     def __str__(self):
         return self.title
+
