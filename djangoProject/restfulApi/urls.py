@@ -2,21 +2,20 @@ from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers
 from quickstart import views as quickView
+from todoRestful import views as todoRestfulView
 from blog.views import Blog_list
 from blog.views import BlogDetail, New_blog, Remove_blog, Edit_blog
 from todo.views import TodoListView, TodoDeleteView, TodoCreateView, TodoEditView
 
 router = routers.DefaultRouter()
-router.register(r'users', quickView.UserViewSet)
-router.register(r'groups', quickView.GroupViewSet)
-router.register(r'post', quickView.PostViewSet)
-# router.register(r'todo', )
+# router.register(r'post', quickView.PostViewSet)
+router.register(r'', todoRestfulView.TodoViewSet)
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('blog_list/', Blog_list.as_view(), name='blog_list'),
@@ -29,6 +28,8 @@ urlpatterns = [
     path('todo/todo_create/', TodoCreateView.as_view(), name="todo_create"),
     path('todo/<int:pk>/delete', TodoDeleteView.as_view()),
     path('todo/<int:pk>/edit/', TodoEditView.as_view()),
+
+    path('todoRestful/', include(router.urls)),
 
     # path('todo/todo_list/', createForm),
 
