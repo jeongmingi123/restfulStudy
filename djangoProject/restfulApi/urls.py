@@ -8,14 +8,14 @@ from blog.views import BlogDetail, New_blog, Remove_blog, Edit_blog
 from todo.views import TodoListView, TodoDeleteView, TodoCreateView, TodoEditView
 
 router = routers.DefaultRouter()
-# router.register(r'post', quickView.PostViewSet)
-router.register(r'', todoRestfulView.TodoViewSet)
+router.register(r'post', quickView.PostViewSet)
+# router.register(r'', todoRestfulView.TodoViewSet)
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    # path('api/', include(router.urls)),
+    path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('blog_list/', Blog_list.as_view(), name='blog_list'),
@@ -29,8 +29,8 @@ urlpatterns = [
     path('todo/<int:pk>/delete', TodoDeleteView.as_view()),
     path('todo/<int:pk>/edit/', TodoEditView.as_view()),
 
-    path('todoRestful/', include(router.urls)),
-
+    path('todoRestful/', todoRestfulView.TodoListAPIView.as_view()),
+    path('todoRestful/<int:pk>', todoRestfulView.TodoDetailAPIView.as_view()),
     # path('todo/todo_list/', createForm),
 
 ]
